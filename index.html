@@ -1,211 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
+<title>Spotify – Data Governance</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rapport Data Spotify</title>
+
+<!-- Reveal.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme">
+
 <style>
-    body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #121212;
-        color: #FFFFFF;
-        margin: 0;
-        padding: 0;
-    }
-    .slide {
-        width: 100vw;
-        height: 100vh;
-        padding: 40px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    h1, h2, h3, h4 {
-        margin: 10px 0;
-        font-weight: 600;
-    }
-    h1 {
-        font-size: 2.5rem;
-        color: #1DB954; /* Spotify green */
-    }
-    h2 {
-        font-size: 2rem;
-        color: #FFFFFF;
-    }
-    p {
-        font-size: 1.1rem;
-        line-height: 1.5;
-    }
-    ul {
-        margin-left: 20px;
-    }
-    li {
-        margin: 10px 0;
-    }
-    .green-box {
-        background-color: #1DB954;
-        color: #000000;
-        padding: 10px 15px;
-        border-radius: 5px;
-        display: inline-block;
-        margin: 5px 0;
-    }
-    .yellow-box {
-        background-color: #FFC107;
-        color: #000000;
-        padding: 10px 15px;
-        border-radius: 5px;
-        display: inline-block;
-        margin: 5px 0;
-    }
-    .blue-box {
-        background-color: #1E90FF;
-        color: #FFFFFF;
-        padding: 10px 15px;
-        border-radius: 5px;
-        display: inline-block;
-        margin: 5px 0;
-    }
-    .dark-box {
-        background-color: #1F1F1F;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 15px 0;
-    }
-    .flex-row {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-    .slide-footer {
-        margin-top: auto;
-        font-size: 0.9rem;
-        color: #BBBBBB;
-    }
+:root {
+  --spotify-green: #1DB954;
+  --bg-dark: #121212;
+  --bg-darker: #1F1F1F;
+  --white: #FFFFFF;
+  --grey: #BBBBBB;
+}
+body { font-family: "Segoe UI", sans-serif; }
+
+.reveal {
+  color: var(--white);
+}
+.reveal h1, .reveal h2 { color: var(--spotify-green); font-weight: 600; }
+.reveal section { padding: 2rem; }
+ul { margin-left: 1.2rem; }
+li { margin: 0.6rem 0; }
+.box {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 0.3rem 0;
+}
+.green-box { background-color: var(--spotify-green); color: #000; }
+.yellow-box { background-color: #FFC107; color: #000; }
+.blue-box { background-color: #1E90FF; color: #fff; }
+.card {
+  background-color: var(--bg-darker);
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+}
+.centered { text-align: center; }
+.timeline { display: flex; gap: 1rem; flex-wrap: wrap; margin-top:1rem;}
+.timeline-step {
+  background-color: var(--bg-darker);
+  padding: 1rem;
+  border-radius: 8px;
+  flex: 1 1 calc(25% - 1rem);
+}
 </style>
 </head>
 <body>
 
-<!-- Slide 1: Executive Summary -->
-<section class="slide" style="background-color:#121212;">
-    <h1>Rapport Data – Spotify</h1>
-    <h2>Executive Summary</h2>
-    <ul>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- Slide 1: Executive Summary -->
+    <section class="centered" style="background-color: var(--bg-dark);">
+      <h1>Rapport Data – Spotify</h1>
+      <h2>Executive Summary</h2>
+      <ul style="margin-top:1rem;">
         <li><span class="green-box">Fragmentation structurelle</span></li>
         <li><span class="yellow-box">Risques réglementaires élevés</span></li>
         <li><span class="green-box">Opportunités d’efficacité majeures</span></li>
         <li><span class="green-box">Impact direct sur la personnalisation et la croissance</span></li>
-    </ul>
-</section>
+      </ul>
+    </section>
 
-<!-- Slide 2: Problèmes clés -->
-<section class="slide" style="background-color:#1F1F1F;">
-    <h2>Problèmes clés</h2>
-    <ul>
+    <!-- Slide 2: Problèmes clés -->
+    <section style="background-color: var(--bg-darker);">
+      <h2>Problèmes clés</h2>
+      <ul>
         <li>Silos → incohérences</li>
         <li>Qualité → recommandations dégradées</li>
         <li>Conformité → risque RGPD/CCPA</li>
         <li>Sécurité → accès trop larges</li>
-    </ul>
-</section>
+      </ul>
+    </section>
 
-<!-- Slide 3: Vision cible -->
-<section class="slide" style="background-color:#121212;">
-    <h2>Vision cible</h2>
-    <div class="flex-row">
-        <div class="dark-box">Gouvernance unifiée</div>
-        <div class="dark-box">Standards globaux</div>
-        <div class="dark-box">Qualité mesurée</div>
-        <div class="dark-box">Accès sécurisés</div>
-        <div class="dark-box">Architecture harmonisée</div>
-    </div>
-</section>
+    <!-- Slide 3: Vision cible -->
+    <section style="background-color: var(--bg-dark);">
+      <h2>Vision cible</h2>
+      <div class="card">
+        <ul>
+          <li>Gouvernance unifiée</li>
+          <li>Standards globaux</li>
+          <li>Qualité mesurée</li>
+          <li>Accès sécurisés</li>
+          <li>Architecture harmonisée</li>
+        </ul>
+      </div>
+    </section>
 
-<!-- Slide 4: Principaux défis -->
-<section class="slide" style="background-color:#1F1F1F;">
-    <h2>Principaux Défis</h2>
-    <ul>
-        <li>Défi 1 — Fragmentation : Silos persistants → duplication, incohérences</li>
-        <li>Défi 2 — Qualité : Métadonnées incomplètes → recommandations moins pertinentes</li>
-        <li>Défi 3 — Conformité : Consentement non harmonisé → exposition réglementaire</li>
-        <li>Défi 4 — Sécurité : Manque de segmentation Zero Trust → surface d’attaque trop large</li>
-        <li>Défi 5 — Accessibilité : Documentation insuffisante → dépendance aux experts internes</li>
-    </ul>
-</section>
+    <!-- Slide 4: Principaux défis -->
+    <section style="background-color: var(--bg-darker);">
+      <h2>Principaux Défis</h2>
+      <ul>
+        <li>Fragmentation → Silos persistants, duplication et incohérences</li>
+        <li>Qualité → Métadonnées incomplètes, recommandations moins pertinentes</li>
+        <li>Conformité → Consentement non harmonisé, risque réglementaire</li>
+        <li>Sécurité → Manque de segmentation Zero Trust, surface d’attaque large</li>
+        <li>Accessibilité → Documentation insuffisante, dépendance aux experts</li>
+      </ul>
+    </section>
 
-<!-- Slide 5: Politique de gouvernance -->
-<section class="slide" style="background-color:#121212;">
-    <h2>Politique de Gouvernance</h2>
-    <ul>
+    <!-- Slide 5: Politique de gouvernance -->
+    <section style="background-color: var(--bg-dark);">
+      <h2>Politique de Gouvernance</h2>
+      <ul>
         <li>Minimisation & Privacy-by-Design → Pseudonymisation après 90 jours</li>
         <li>Qualité & Fiabilité → Score mensuel par dataset</li>
         <li>Transparence & Consentement → Harmonisation RGPD/CCPA</li>
         <li>Accessibilité & Standardisation → Data Catalog central</li>
-    </ul>
-</section>
+      </ul>
+    </section>
 
-<!-- Slide 6: Modèle organisationnel -->
-<section class="slide" style="background-color:#1F1F1F;">
-    <h2>Organisation – Modèle Centre d’Excellence (CoE)</h2>
-    <div class="flex-row">
-        <div class="dark-box">
-            <h4>Data Protection Officer (DPO)</h4>
-            Supervise audits RGPD/CCPA → réduction du risque réglementaire
+    <!-- Slide 6: Modèle organisationnel -->
+    <section style="background-color: var(--bg-darker);">
+      <h2>Organisation – Modèle Centre d’Excellence (CoE)</h2>
+      <div class="card">
+        <ul>
+          <li><strong>Data Protection Officer (DPO)</strong> → supervise audits RGPD/CCPA</li>
+          <li><strong>Data Steward</strong> → garant qualité et documentation</li>
+          <li><strong>Data Owner</strong> → arbitre des priorités, alignement business/tech</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 7: Tech Stack recommandé -->
+    <section style="background-color: var(--bg-dark);">
+      <h2>Stack Technologique Recommandée</h2>
+      <div class="card">
+        <ul>
+          <li><span class="blue-box">Data Catalog</span> → –30 à 50 % temps de recherche</li>
+          <li><span class="green-box">Monitoring qualité</span> → –40 % incidents data</li>
+          <li><span class="yellow-box">Gestion des accès</span> → segmentation Zero Trust</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 8: Roadmap 12 mois -->
+    <section style="background-color: var(--bg-darker);">
+      <h2>Roadmap 12 mois</h2>
+      <div class="timeline">
+        <div class="timeline-step">
+          <h4>Q1 : Standards + CoE</h4>
+          <ul>
+            <li>Création du Centre d’Excellence</li>
+            <li>Définition des standards & politiques</li>
+          </ul>
         </div>
-        <div class="dark-box">
-            <h4>Data Steward</h4>
-            Garant de la qualité et documentation → cohérence transverse
+        <div class="timeline-step">
+          <h4>Q2 : Data Catalog + Stewards</h4>
+          <ul>
+            <li>Déploiement du Data Catalog</li>
+            <li>Nomination & onboarding des Data Stewards</li>
+          </ul>
         </div>
-        <div class="dark-box">
-            <h4>Data Owner</h4>
-            Arbitre des priorités → alignement business / technique
+        <div class="timeline-step">
+          <h4>Q3 : Monitoring qualité + Zero Trust</h4>
+          <ul>
+            <li>Mise en place du monitoring qualité</li>
+            <li>Segmentation Zero Trust & IAM</li>
+          </ul>
         </div>
-    </div>
-</section>
+        <div class="timeline-step">
+          <h4>Q4 : Déploiement global + audit</h4>
+          <ul>
+            <li>Extension à tous les domaines</li>
+            <li>Audit final & amélioration continue</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-<!-- Slide 7: Tech Stack recommandé -->
-<section class="slide" style="background-color:#121212;">
-    <h2>Stack Technologique Recommandée</h2>
-    <div class="flex-row">
-        <div class="blue-box">Data Catalog → –30 à 50 % temps de recherche</div>
-        <div class="green-box">Monitoring qualité → –40 % incidents data</div>
-        <div class="yellow-box">Gestion des accès → segmentation Zero Trust</div>
-    </div>
-</section>
+  </div>
+</div>
 
-<!-- Slide 8: Plan pilote -->
-<section class="slide" style="background-color:#1F1F1F;">
-    <h2>Plan Pilote – Données Utilisateurs</h2>
-    <ul>
-        <li>Dataset : User Listening Events</li>
-        <li>Documentation complète</li>
-        <li>Règles de qualité & alertes automatiques</li>
-        <li>Revue des accès & test RGPD</li>
-    </ul>
-</section>
-
-<!-- Slide 9: KPIs et succès -->
-<section class="slide" style="background-color:#121212;">
-    <h2>Comment mesurer le succès ?</h2>
-    <ul>
-        <li>Data Quality Score → détection anomalies, fiabilité métriques</li>
-        <li>Compliance Score → suivi conformité RGPD/CCPA</li>
-        <li>Data Access Speed → rapidité accès aux datasets critiques</li>
-        <li>Risk Mitigation Score → réduction des risques de fuite ou usage abusif</li>
-    </ul>
-</section>
-
-<!-- Slide 10: Roadmap 12 mois -->
-<section class="slide" style="background-color:#1F1F1F;">
-    <h2>Roadmap 12 mois</h2>
-    <ul>
-        <li>Q1 : Standards + CoE</li>
-        <li>Q2 : Data Catalog + Stewards</li>
-        <li>Q3 : Monitoring qualité + Zero Trust</li>
-        <li>Q4 : Déploiement global + audit</li>
-    </ul>
-</section>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    transition: 'fade',
+    controls: true,
+    progress: true,
+    center: true
+  });
+</script>
 
 </body>
 </html>
