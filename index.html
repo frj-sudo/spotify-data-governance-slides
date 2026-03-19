@@ -1,34 +1,417 @@
-<!-- Slide : Plan de gouvernance & outils -->
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Spotify – Data Governance (Deck complet)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Reveal.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Anime.js -->
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<style>
+:root{
+  --bg1:#0f172a;
+  --bg2:#020617;
+  --neon:#22c55e;
+  --blue:#3b82f6;
+  --pink:#ec4899;
+  --glass:rgba(255,255,255,0.06);
+}
+
+/* Background animé */
+body{
+  background: linear-gradient(270deg,var(--bg2),var(--bg1),var(--bg2));
+  background-size: 600% 600%;
+  animation: bgMove 15s ease infinite;
+}
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* Reveal.js */
+.reveal{
+  color:#e5e7eb;
+  font-family: Inter, sans-serif;
+}
+
+/* Titres */
+h1,h2{
+  background: linear-gradient(90deg,var(--neon),var(--blue));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Cartes glassmorphism */
+.card{
+  background:var(--glass);
+  backdrop-filter: blur(12px);
+  border-radius:16px;
+  padding:1.2rem;
+  border:1px solid rgba(255,255,255,0.1);
+  transition:0.3s;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 0 25px rgba(34,197,94,0.4);
+}
+
+/* Grid */
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+}
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+/* KPI */
+.kpi{
+  font-size:2rem;
+  font-weight:bold;
+  color:var(--neon);
+}
+
+/* Timeline */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+}
+.step{
+  padding:1rem;
+  border-radius:12px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Tags */
+.tag{
+  font-size:0.7em;
+  color:var(--blue);
+  text-transform:uppercase;
+}
+
+/* Center */
+.center{text-align:center}
+
+/* Storyline list */
+.storyline li{
+  margin-bottom:0.6rem;
+  font-size:0.9em;
+}
+
+/* Shields */
+.shield-container{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.shield{
+  width:150px;
+  height:180px;
+  border-radius:50% 50% 45% 45% / 30% 30% 70% 70%;
+  background:radial-gradient(circle at 30% 20%, #6EE7B7, #059669);
+  box-shadow:0 0 25px rgba(46, 204, 113,0.6);
+  position:relative;
+}
+.shield::before{
+  content:"✓";
+  position:absolute;
+  font-size:3rem;
+  color:#fff;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-55%);
+  font-weight:700;
+}
+.shield::after{
+  content:"RGPD / CCPA";
+  position:absolute;
+  bottom:12%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:0.7em;
+  color:#fff;
+  letter-spacing:0.12em;
+}
+
+/* Pillars */
+.pillars{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0.8rem 1.2rem;
+  margin-top:1rem;
+}
+.pillar{
+  background:var(--glass);
+  border-radius:8px;
+  padding:0.6rem 0.7rem;
+  border:1px solid rgba(255,255,255,0.1);
+  position:relative;
+  overflow:hidden;
+}
+.pillar h4{margin:0 0 0.2rem 0; font-size:0.9em; color:var(--neon);}
+.pillar p{margin:0; font-size:0.8em; color:#ccc;}
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- Slide 1 -->
+<section class="center">
+<h1>Spotify Data Governance</h1>
+<p class="tag">Vision stratégique & transformation data</p>
+</section>
+
+<!-- Slide 2 : Storyline -->
 <section>
-<h2>Plan de gouvernance – Modèle organisationnel & outils</h2>
+<h2>Storyline</h2>
+<ul class="storyline">
+<li>Spotify fait face à des risques majeurs : fragmentation, qualité, conformité.</li>
+<li>Impact direct sur la personnalisation, la croissance et la réputation.</li>
+<li>Cadre de gouvernance unifié, pragmatique et scalable.</li>
+<li>Améliore qualité, sécurité et réduit le risque RGPD/CCPA.</li>
+<li>Roadmap 12 mois pour un déploiement rapide et durable.</li>
+</ul>
+</section>
 
+<!-- Slide 3 : Diagnostic & Défis -->
+<section>
+<h2>Diagnostic de maturité & Défis</h2>
 <div class="grid-2">
-
-  <!-- Carte 1 : Organisation -->
-  <div class="card">
-    <h3>Modèle organisationnel recommandé</h3>
-    <ul>
-      <li>Modèle hybride CoE + Domaines</li>
-      <li>Cohérence globale + autonomie locale</li>
-      <li>Rôles clés : CDO, DPO, Data Steward, Data Owner, Security Lead</li>
-    </ul>
-  </div>
-
-  <!-- Carte 2 : Outils & traitement des données -->
-  <div class="card">
-    <h3>Outils & traitement des données</h3>
-    <ul>
-      <li><strong>VS Code / Jupyter:</strong> Développement et nettoyage des datasets, scripts ETL, notebooks analytiques.</li>
-      <li><strong>Airflow:</strong> Orchestration des pipelines de données, automatisation des flux, suivi des dépendances et alertes.</li>
-      <li><strong>Tableau / Power BI:</strong> Visualisation interactive, dashboards décisionnels, suivi des KPIs et reporting métier.</li>
-      <li><strong>Data Catalog (ex. Amundsen, Alation):</strong> Documentation centralisée, métadonnées complètes, recherche et accessibilité des datasets.</li>
-      <li><strong>Monitoring Qualité (ex. Great Expectations):</strong> Contrôle automatique des anomalies et qualité des données.</li>
-    </ul>
-  </div>
-
+<div class="card">
+<h3>Organisation & Gouvernance</h3>
+<ul>
+<li>Rôles existants mais pratiques hétérogènes.</li>
+<li>Silos Produit / Marketing / Contenu → vision utilisateur non unifiée.</li>
+</ul>
 </div>
+<div class="card">
+<h3>Qualité & Données</h3>
+<ul>
+<li>Métadonnées musicales incomplètes → recommandations moins pertinentes.</li>
+<li>Incohérences entre datasets → métriques divergentes.</li>
+</ul>
+</div>
+</div>
+<div class="grid-2" style="margin-top:1rem;">
+<div class="card">
+<h3>Architecture & Intégration</h3>
+<ul>
+<li>Infrastructure moderne mais peu harmonisée.</li>
+<li>Absence de Data Catalog → perte de temps 30–50%.</li>
+</ul>
+</div>
+<div class="card">
+<h3>Conformité & Sécurité</h3>
+<ul>
+<li>Exposition forte RGPD / CCPA.</li>
+<li>Droit à l’oubli complexe (20+ systèmes).</li>
+<li>Accès trop larges → risque de fuite.</li>
+</ul>
+</div>
+</div>
+</section>
 
+<!-- Slide 4 : Principaux défis -->
+<section>
+<h2>Principaux défis</h2>
+<div class="grid-3">
+<div class="card"><h3>Fragmentation</h3><p>Silos → duplication, incohérences, décisions ralenties.</p></div>
+<div class="card"><h3>Qualité</h3><p>Métadonnées incomplètes → recommandations moins pertinentes.</p></div>
+<div class="card"><h3>Conformité</h3><p>Consentement non harmonisé → exposition réglementaire.</p></div>
+<div class="card"><h3>Sécurité</h3><p>Zero‑Trust insuffisant → surface d’attaque trop large.</p></div>
+<div class="card"><h3>Accessibilité</h3><p>Documentation insuffisante → dépendance aux experts internes.</p></div>
+</div>
+</section>
+
+<!-- Slide 5 : Principes directeurs -->
+<section>
+<h2>Principes directeurs</h2>
+<div class="grid-2">
+<div class="card">
+<h3>Privacy & Minimisation</h3>
+<ul>
+<li>Pseudonymisation des logs après 90 jours</li>
+<li>Réduction du risque sans perte de valeur analytique</li>
+</ul>
+<h3>Qualité & Fiabilité</h3>
+<ul>
+<li>Score qualité mensuel par dataset</li>
+<li>Détection rapide des anomalies</li>
+</ul>
+</div>
+<div class="card">
+<h3>Transparence & Consentement</h3>
+<ul>
+<li>Consentement harmonisé globalement</li>
+<li>Conformité RGPD/CCPA renforcée</li>
+</ul>
+<h3>Accessibilité & Standardisation</h3>
+<ul>
+<li>Data Catalog central</li>
+<li>Découvrabilité & réduction des duplications</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Slide 6 : Rôles & responsabilités -->
+<section>
+<h2>Rôles & responsabilités</h2>
+<div class="grid-2">
+<div class="card">
+<h3>Organisation</h3>
+<ul>
+<li>CDO: stratégie globale</li>
+<li>DPO: conformité RGPD/CCPA</li>
+<li>Data Steward: qualité & documentation</li>
+<li>Data Owner: priorisation & alignement business</li>
+<li>Security Lead: sécurisation des accès</li>
+</ul>
+</div>
+<div class="card">
+<h3>Équipes opérationnelles</h3>
+<ul>
+<li>Privacy Team: gestion risques privacy</li>
+<li>Data Stewards: qualité et documentation par domaine</li>
+<li>IAM / Zero‑Trust Team: gestion accès & segmentation</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Slide 7 : Plan de gouvernance & outils -->
+<section>
+<h2>Plan de gouvernance – Modèle & outils</h2>
+<div class="grid-2">
+<div class="card">
+<h3>Modèle organisationnel recommandé</h3>
+<ul>
+<li>Modèle hybride CoE + Domaines</li>
+<li>Cohérence globale + autonomie locale</li>
+<li>Rôles clés : CDO, DPO, Data Steward, Data Owner, Security Lead</li>
+</ul>
+</div>
+<div class="card">
+<h3>Outils & traitement des données</h3>
+<ul>
+<li><strong>VS Code / Jupyter:</strong> scripts ETL, nettoyage et préparation des datasets</li>
+<li><strong>Airflow:</strong> orchestration des pipelines et alertes automatiques</li>
+<li><strong>Tableau / Power BI:</strong> dashboards interactifs, reporting KPI</li>
+<li><strong>Data Catalog:</strong> documentation, métadonnées, traçabilité</li>
+<li><strong>Monitoring Qualité:</strong> contrôle automatique des anomalies</li>
+</ul>
+</div>
+</div>
 <p style="margin-top:1rem; font-size:0.85em; color:#aaa;">
 Chaque outil est intégré dans le plan pour sécuriser, standardiser et rendre les données exploitables rapidement, tout en assurant la conformité RGPD/CCPA et la qualité analytique.
 </p>
 </section>
+
+<!-- Slide 8 : Roadmap -->
+<section>
+<h2>Roadmap 12 mois</h2>
+<div class="timeline">
+<div class="step">Q1<br>Standards & CoE</div>
+<div class="step">Q2<br>Data Catalog & Stewards</div>
+<div class="step">Q3<br>Monitoring Qualité & Zero‑Trust</div>
+<div class="step">Q4<br>Déploiement global & audit</div>
+</div>
+</section>
+
+<!-- Slide 9 : Bénéfices attendus -->
+<section>
+<h2>Bénéfices attendus</h2>
+<div class="grid-2">
+<div>
+<div class="kpi">-40%</div><p>Incidents data</p>
+<div class="kpi">+8%</div><p>Précision recommandations</p>
+<div class="kpi">-50%</div><p>Temps recherche</p>
+<div class="kpi">↑</div><p>Vision unifiée & productivité</p>
+</div>
+<div class="card">
+<ul>
+<li>–40 % d’incidents data (monitoring automatisé)</li>
+<li>+5 à +8 % de précision des recommandations</li>
+<li>–30 à –50 % de temps perdu à chercher les données (Data Catalog)</li>
+<li>Réduction du risque RGPD/CCPA</li>
+<li>Vision utilisateur unifiée → meilleure personnalisation & revenus</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Slide 10 : Graphique KPI -->
+<section>
+<h2>Impact visuel</h2>
+<canvas id="impactChart" style="max-width:700px;"></canvas>
+</section>
+
+<!-- Slide 11 : RGPD / CCPA -->
+<section>
+<h2>Conformité RGPD / CCPA</h2>
+<div class="shield-container">
+<div class="shield" id="shield"></div>
+</div>
+<div class="pillars">
+<div class="pillar"> <h4>Minimisation</h4> <p>Collecte limitée & pseudonymisation après 90 jours.</p> </div>
+<div class="pillar"> <h4>Accès</h4> <p>Zero‑Trust & IAM renforcé, segmentation fine.</p> </div>
+<div class="pillar"> <h4>Consentement</h4> <p>Traçable & auditable, mécanisme harmonisé.</p> </div>
+<div class="pillar"> <h4>Droit à l’oubli</h4> <p>Processus centralisé couvrant 20+ systèmes.</p> </div>
+</div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script>
+Reveal.initialize({hash:true,slideNumber:true,transition:'fade'});
+
+/* Chart.js KPI Graph */
+const ctx=document.getElementById('impactChart');
+if(ctx){
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:['Incidents','Reco','Recherche','ROI'],
+datasets:[{
+label:'Impact',
+data:[-40,8,-50,20],
+backgroundColor:['#22c55e','#3b82f6','#ec4899','#facc15']
+}]
+},
+options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+});
+}
+
+/* Animations dynamiques */
+Reveal.on('slidechanged', e=>{
+anime({
+targets:e.currentSlide.querySelectorAll('.card, .step, .pillar, #shield'),
+opacity:[0,1],
+translateY:[30,0],
+delay:anime.stagger(100),
+duration:700,
+easing:'easeOutExpo'
+});
+});
+</script>
+</body>
+</html>
