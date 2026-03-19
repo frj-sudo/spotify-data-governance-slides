@@ -2,15 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Spotify – Data Governance Deck</title>
+  <title>Spotify – Data Governance (Deck complet)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Reveal.js CDN -->
+  <!-- Reveal.js -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme">
 
+  <!-- Anime.js pour animations dynamiques -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
   <style>
-    /* Palette consulting */
     :root {
       --blue-deep: #0B1F3A;
       --blue-light: #4A90E2;
@@ -19,10 +21,11 @@
       --green: #2ECC71;
       --orange: #F5A623;
       --white: #FFFFFF;
+      --bg: #02040A;
     }
 
     body {
-      background: #000;
+      background: radial-gradient(circle at top, #101828 0, #02040A 55%, #000 100%);
     }
 
     .reveal {
@@ -65,25 +68,6 @@
       margin-right: 0.4em;
     }
 
-    .impact-number {
-      font-size: 1.6em;
-      font-weight: 700;
-      color: var(--green);
-      margin-right: 0.3em;
-    }
-
-    .impact-label {
-      font-size: 0.9em;
-      color: var(--grey-light);
-    }
-
-    .impact-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5em;
-      margin-bottom: 0.3em;
-    }
-
     .two-columns {
       display: grid;
       grid-template-columns: 1.1fr 1.1fr;
@@ -102,6 +86,7 @@
       border-radius: 10px;
       padding: 1rem 1.2rem;
       border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
     }
 
     .card h3 {
@@ -153,6 +138,25 @@
       margin-bottom: 0.2em;
     }
 
+    .impact-number {
+      font-size: 1.6em;
+      font-weight: 700;
+      color: var(--green);
+      margin-right: 0.3em;
+    }
+
+    .impact-label {
+      font-size: 0.9em;
+      color: var(--grey-light);
+    }
+
+    .impact-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5em;
+      margin-bottom: 0.3em;
+    }
+
     .timeline {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -166,6 +170,7 @@
       padding: 0.8rem 0.9rem;
       border: 1px solid rgba(255,255,255,0.06);
       position: relative;
+      overflow: hidden;
     }
 
     .timeline-step::before {
@@ -194,7 +199,6 @@
       margin-bottom: 0.2em;
     }
 
-    /* Organigramme simple */
     .org {
       font-size: 0.8em;
       line-height: 1.4;
@@ -220,10 +224,15 @@
       text-align: center;
     }
 
-    /* Visuel RGPD / CCPA type bouclier + piliers */
+    .small {
+      font-size: 0.75em;
+      color: #aaa;
+    }
+
+    /* Visuel RGPD/CCPA style image (bouclier + piliers) */
     .gdpr-wrapper {
       display: grid;
-      grid-template-columns: 1.2fr 1.2fr;
+      grid-template-columns: 1.1fr 1.1fr;
       gap: 2rem;
       align-items: center;
     }
@@ -232,6 +241,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+    }
+
+    .shield-glow {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(46,204,113,0.35), transparent 60%);
+      filter: blur(6px);
+      opacity: 0.8;
     }
 
     .shield {
@@ -241,6 +261,7 @@
       border-radius: 50% 50% 45% 45% / 30% 30% 70% 70%;
       position: relative;
       box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
+      overflow: hidden;
     }
 
     .shield::before {
@@ -278,6 +299,8 @@
       border-radius: 8px;
       padding: 0.6rem 0.7rem;
       border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
     }
 
     .pillar h4 {
@@ -297,6 +320,18 @@
       text-align: center;
     }
 
+    .pillar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.12), transparent);
+      transform: skewX(-20deg);
+      opacity: 0;
+    }
+
     /* Storyline */
     .storyline {
       font-size: 0.9em;
@@ -306,10 +341,14 @@
       margin-bottom: 0.4em;
     }
 
-    /* Small helper */
-    .small {
-      font-size: 0.75em;
-      color: #aaa;
+    /* Slide titres centrés */
+    .centered {
+      text-align: center !important;
+    }
+
+    .centered ul {
+      display: inline-block;
+      text-align: left;
     }
   </style>
 </head>
@@ -318,97 +357,142 @@
 <div class="reveal">
   <div class="slides">
 
-    <!-- SLIDE 1 : Executive Summary -->
+    <!-- SLIDE 0 : Storyline -->
     <section>
-      <div class="subtitle">Spotify – Data Governance</div>
-      <h2>Diagnostic & enjeux clés</h2>
-      <p class="tagline">Fragmentation, risques réglementaires, opportunités d’efficacité et de personnalisation.</p>
+      <div class="subtitle">Storyline</div>
+      <h2>De la fragmentation à la gouvernance créatrice de valeur</h2>
+      <ul class="storyline" style="margin-top:1.5rem;">
+        <li>Spotify fait face à des risques majeurs : fragmentation, qualité, conformité.</li>
+        <li>Ces risques impactent directement la personnalisation, la croissance et la réputation.</li>
+        <li>Nous proposons un cadre de gouvernance unifié, pragmatique et scalable.</li>
+        <li>Ce cadre améliore la qualité, sécurise les données et réduit le risque RGPD/CCPA.</li>
+        <li>La roadmap 12 mois permet un déploiement rapide, mesurable et durable.</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 1 : Étape 1 – Diagnostic de maturité -->
+    <section>
+      <div class="subtitle">Étape 1 — Rapport exécutif</div>
+      <h2>Diagnostic de maturité – Synthèse exécutive</h2>
+      <p class="tagline">Maturité intermédiaire à avancée, mais fragmentation, incohérences et risques réglementaires.</p>
 
       <div class="two-columns" style="margin-top:1.5rem;">
         <div>
-          <span class="pill">Fragmentation</span>
-          <span class="pill">Qualité</span>
-          <span class="pill">Conformité</span>
-          <span class="pill">Sécurité</span>
-          <span class="pill">Accessibilité</span>
+          <h3>1.1 Gouvernance & organisation</h3>
+          <ul>
+            <li>Rôles existants mais pratiques hétérogènes selon les équipes.</li>
+            <li>Silos Produit / Marketing / Contenu → vision utilisateur non unifiée.</li>
+          </ul>
 
-          <ul style="margin-top:1rem;">
-            <li>Silos entre Produit / Marketing / Contenu → vision utilisateur non unifiée.</li>
-            <li>Métadonnées musicales parfois incomplètes → baisse de performance des recommandations.</li>
-            <li>Risque RGPD / CCPA élevé (droit à l’oubli complexe, consentement variable).</li>
-            <li>Accès trop larges aux données brutes → exposition sécurité.</li>
-            <li>Absence de Data Catalog → temps perdu à retrouver les données.</li>
+          <h3>1.2 Qualité des données</h3>
+          <ul>
+            <li>Qualité variable selon les sources.</li>
+            <li>Métadonnées musicales incomplètes → baisse de performance des algorithmes de recommandation.</li>
+            <li>Incohérences entre datasets → métriques divergentes selon les équipes.</li>
           </ul>
         </div>
         <div>
-          <div class="schema-title">Impacts business</div>
-          <div class="impact-row">
-            <span class="impact-number">–40%</span>
-            <span class="impact-label">Incidents data (objectif)</span>
-          </div>
-          <div class="impact-row">
-            <span class="impact-number">+5–8%</span>
-            <span class="impact-label">Précision des recommandations</span>
-          </div>
-          <div class="impact-row">
-            <span class="impact-number">–30–50%</span>
-            <span class="impact-label">Temps perdu à chercher les données</span>
-          </div>
-          <p style="margin-top:1rem;">Le cadre proposé vise à réduire les risques, améliorer la qualité et renforcer la personnalisation à l’échelle globale.</p>
+          <h3>1.3 Architecture & intégration</h3>
+          <ul>
+            <li>Infrastructure moderne mais peu harmonisée.</li>
+            <li>Absence de Data Catalog → perte de temps (30–50 %) pour retrouver les données.</li>
+          </ul>
+
+          <h3>1.4 Conformité & sécurité</h3>
+          <ul>
+            <li>Exposition forte RGPD / CCPA / PCI‑DSS.</li>
+            <li>Droit à l’oubli complexe (20+ systèmes) → risque élevé de non‑conformité.</li>
+            <li>Accès trop larges → risque de fuite ou d’usage abusif.</li>
+          </ul>
+
+          <h3>1.5 Culture data</h3>
+          <ul>
+            <li>Culture data‑driven forte, mais dépendante de données mal gouvernées.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 2 : RGPD / CCPA -->
+    <!-- SLIDE 2 : Étape 1 – Principaux défis MECE -->
     <section>
-      <div class="subtitle">Conformité</div>
-      <h2>Conformité aux exigences RGPD / CCPA</h2>
+      <div class="subtitle">Étape 1 — Rapport exécutif</div>
+      <h2>Principaux défis – Synthèse MECE</h2>
 
-      <div class="gdpr-wrapper" style="margin-top:1.5rem;">
-        <div class="shield-container">
-          <div class="shield"></div>
+      <div class="three-columns" style="margin-top:1.5rem;">
+        <div class="card">
+          <h3>Défi 1 — Fragmentation</h3>
+          <ul>
+            <li>Silos persistants → duplication, incohérences, décisions ralenties.</li>
+          </ul>
+          <h3>Défi 2 — Qualité</h3>
+          <ul>
+            <li>Métadonnées incomplètes → recommandations moins pertinentes.</li>
+          </ul>
         </div>
-        <div>
-          <div class="schema-title">Piliers de conformité intégrés au cadre</div>
-          <div class="pillars">
-            <div class="pillar">
-              <h4>Minimisation</h4>
-              <p>Collecte limitée au nécessaire & pseudonymisation des logs après 90 jours.</p>
-            </div>
-            <div class="pillar">
-              <h4>Accès</h4>
-              <p>Zero‑Trust & IAM renforcé, segmentation fine des permissions.</p>
-            </div>
-            <div class="pillar center">
-              <h4>Consentement</h4>
-              <p>Traçable & auditable, mécanisme harmonisé dans toutes les régions.</p>
-            </div>
-            <div class="pillar">
-              <h4>Droit à l’oubli</h4>
-              <p>Processus centralisé couvrant 20+ systèmes internes.</p>
-            </div>
-            <div class="pillar">
-              <h4>Transparence</h4>
-              <p>Documentation claire & politique de confidentialité unifiée.</p>
-            </div>
-          </div>
-          <p style="margin-top:0.8rem;" class="small">
-            Le cadre réduit significativement le risque réglementaire tout en améliorant la qualité et l’efficacité opérationnelle.
-          </p>
+        <div class="card">
+          <h3>Défi 3 — Conformité</h3>
+          <ul>
+            <li>Consentement non harmonisé → exposition réglementaire.</li>
+          </ul>
+          <h3>Défi 4 — Sécurité</h3>
+          <ul>
+            <li>Manque de segmentation Zero‑Trust → surface d’attaque trop large.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Défi 5 — Accessibilité</h3>
+          <ul>
+            <li>Documentation insuffisante → dépendance aux experts internes.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 3 : Organigramme -->
+    <!-- SLIDE 3 : Étape 2 – Principes directeurs -->
     <section>
-      <div class="subtitle">Operating Model</div>
-      <h2>Rôles & responsabilités cibles</h2>
+      <div class="subtitle">Étape 2 — Politique de gouvernance</div>
+      <h2>Principes directeurs (Executive Principles)</h2>
+
+      <div class="two-columns" style="margin-top:1.5rem;">
+        <div class="card">
+          <h3>1.1 Minimisation & Privacy-by-Design</h3>
+          <ul>
+            <li>Pseudonymisation des logs après 90 jours.</li>
+            <li>Réduction du risque sans perte de valeur analytique.</li>
+          </ul>
+
+          <h3>1.2 Qualité & Fiabilité</h3>
+          <ul>
+            <li>Score de qualité mensuel par dataset.</li>
+            <li>Détection rapide des anomalies.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>1.3 Transparence & Consentement</h3>
+          <ul>
+            <li>Consentement harmonisé globalement.</li>
+            <li>Conformité RGPD/CCPA renforcée.</li>
+          </ul>
+
+          <h3>1.4 Accessibilité & Standardisation</h3>
+          <ul>
+            <li>Data Catalog central.</li>
+            <li>Meilleure découvrabilité & réduction des duplications.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4 : Étape 2 – Rôles & responsabilités -->
+    <section>
+      <div class="subtitle">Étape 2 — Politique de gouvernance</div>
+      <h2>Rôles & responsabilités (Operating Model)</h2>
 
       <div class="two-columns" style="margin-top:1.5rem;">
         <div class="org card">
           <div class="org-level">
             <strong>Chief Data Officer (CDO)</strong><br>
-            Stratégie data & pilotage global
+            Pilote la stratégie globale
           </div>
           <div class="org-branches">
             <div>
@@ -427,135 +511,105 @@
               <span class="small">Security Engineering</span>
             </div>
           </div>
+          <div class="org-branches">
+            <div>
+              <strong>Privacy Team</strong><br>
+              Gestion des risques privacy
+            </div>
+            <div>
+              <strong>Data Stewards</strong><br>
+              Qualité & documentation (par domaine)
+            </div>
+            <div>
+              <strong>IAM / Zero‑Trust Team</strong><br>
+              Gestion des accès & segmentation
+            </div>
+          </div>
         </div>
         <div>
-          <div class="schema-title">Rôles clés</div>
+          <h3>Rôles clés</h3>
           <ul>
-            <li><strong>CDO :</strong> définit la vision, arbitre les priorités, pilote la transformation.</li>
-            <li><strong>DPO :</strong> supervise les audits, valide les Privacy Impact Assessments.</li>
-            <li><strong>Data Governance Lead :</strong> conçoit le cadre, anime le CoE.</li>
-            <li><strong>Data Stewards :</strong> responsables qualité & documentation par domaine.</li>
-            <li><strong>Data Owners :</strong> alignent les besoins business et les règles data.</li>
-            <li><strong>Security Lead :</strong> met en œuvre Zero‑Trust, IAM, monitoring sécurité.</li>
+            <li><strong>DPO :</strong> supervise audits RGPD/CCPA → réduction du risque réglementaire.</li>
+            <li><strong>Data Steward :</strong> garant de la qualité & documentation → cohérence transverse.</li>
+            <li><strong>Data Owner :</strong> arbitre des priorités → alignement business / technique.</li>
+            <li><strong>Security Lead :</strong> sécurise les accès & données sensibles.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 4 : Vision cible -->
+    <!-- SLIDE 5 : Étape 3 – Plan d’implémentation -->
     <section>
-      <div class="subtitle">Vision</div>
-      <h2>Vision cible – Data Governance Spotify</h2>
+      <div class="subtitle">Étape 3 — Plan d’implémentation</div>
+      <h2>Modèle organisationnel & outils</h2>
 
       <div class="two-columns" style="margin-top:1.5rem;">
-        <div>
-          <p>Une gouvernance unifiée, scalable et conforme, au service de la personnalisation et de la croissance.</p>
-          <ul style="margin-top:1rem;">
-            <li>Données fiables : qualité mesurée, métadonnées complètes.</li>
-            <li>Données sécurisées : Zero‑Trust, segmentation, pseudonymisation.</li>
-            <li>Données conformes : RGPD / CCPA intégrés by design.</li>
-            <li>Données accessibles : Data Catalog central & documentation claire.</li>
-            <li>Données intégrées : silos supprimés, vue 360° utilisateur.</li>
+        <div class="card">
+          <h3>1. Modèle organisationnel recommandé</h3>
+          <ul>
+            <li>Modèle hybride CoE + Domaines.</li>
+            <li>Cohérence globale + autonomie locale.</li>
+          </ul>
+
+          <h3>3. Plan pilote (Quick Win)</h3>
+          <ul>
+            <li>Dataset pilote : “User Listening Events”.</li>
+            <li>Documentation complète, règles de qualité, alertes automatiques.</li>
+            <li>Revue des accès & test RGPD (droit à l’oubli).</li>
           </ul>
         </div>
         <div class="card">
-          <div class="schema-title">Pentagone de la vision</div>
+          <h3>2. Outils recommandés (Tech Stack)</h3>
           <ul>
-            <li><strong>Fiabilité :</strong> scores de qualité, ownership clair.</li>
-            <li><strong>Sécurité :</strong> IAM, segmentation, monitoring.</li>
-            <li><strong>Conformité :</strong> privacy-by-design, audits réguliers.</li>
-            <li><strong>Accessibilité :</strong> découverte rapide, self‑service contrôlé.</li>
-            <li><strong>Intégration :</strong> modèles communs, référentiels partagés.</li>
+            <li><strong>Data Catalog :</strong> réduction du temps de recherche de 30–50 %.</li>
+            <li><strong>Monitoring qualité :</strong> détection automatique des anomalies → –40 % d’incidents data.</li>
+            <li><strong>Gestion des accès :</strong> segmentation Zero‑Trust → réduction du risque de fuite.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 5 : Schéma de cohérence -->
-    <section>
-      <div class="subtitle">Cohérence globale</div>
-      <h2>As‑Is → Gaps → Target</h2>
-
-      <div class="schema-title" style="margin-top:1.5rem;">Schéma de cohérence</div>
-      <div class="schema-row">
-        <div class="schema-block">
-          <h4>As‑Is</h4>
-          <ul>
-            <li>Silos entre équipes.</li>
-            <li>Métadonnées incomplètes.</li>
-            <li>Consentement variable selon les régions.</li>
-            <li>Accès trop larges aux données.</li>
-            <li>Données dispersées, peu documentées.</li>
-          </ul>
-        </div>
-        <div class="schema-block">
-          <h4>Gaps</h4>
-          <ul>
-            <li>Absence de standards globaux.</li>
-            <li>Pas de monitoring qualité structuré.</li>
-            <li>Pas de mécanisme centralisé pour le droit à l’oubli.</li>
-            <li>IAM insuffisamment segmenté.</li>
-            <li>Pas de Data Catalog central.</li>
-          </ul>
-        </div>
-        <div class="schema-block">
-          <h4>Target</h4>
-          <ul>
-            <li>Modèle hybride CoE + domaines.</li>
-            <li>Score de qualité mensuel par dataset.</li>
-            <li>Processus RGPD / CCPA centralisé.</li>
-            <li>Zero‑Trust & IAM renforcé.</li>
-            <li>Data Catalog & documentation systématique.</li>
-          </ul>
-        </div>
-      </div>
+    <!-- SLIDE 6 : Étape 4 – Executive Summary -->
+    <section class="centered">
+      <div class="subtitle">Étape 4 — Présentation finale</div>
+      <h2>Slide 1 — Executive Summary</h2>
+      <ul style="margin-top:1.5rem;">
+        <li>Fragmentation structurelle.</li>
+        <li>Risques réglementaires élevés.</li>
+        <li>Opportunités d’efficacité majeures.</li>
+        <li>Impact direct sur la personnalisation et la croissance.</li>
+      </ul>
     </section>
 
-    <!-- SLIDE 6 : Méthode -->
-    <section>
-      <div class="subtitle">Méthodologie</div>
-      <h2>Approche en 4 étapes</h2>
-
-      <div class="timeline" style="margin-top:1.5rem;">
-        <div class="timeline-step" data-q="1">
-          <h4>Diagnostic</h4>
-          <ul>
-            <li>Analyse des silos & flux data.</li>
-            <li>Évaluation qualité & métadonnées.</li>
-            <li>Revue RGPD / CCPA / PCI‑DSS.</li>
-          </ul>
-        </div>
-        <div class="timeline-step" data-q="2">
-          <h4>Design du cadre</h4>
-          <ul>
-            <li>Principes & politiques de gouvernance.</li>
-            <li>Rôles & responsabilités (CDO, DPO, Stewards…).</li>
-            <li>Standards de qualité & sécurité.</li>
-          </ul>
-        </div>
-        <div class="timeline-step" data-q="3">
-          <h4>Pilote</h4>
-          <ul>
-            <li>Dataset “User Listening Events”.</li>
-            <li>Documentation, règles de qualité, alertes.</li>
-            <li>Test droit à l’oubli & consentement.</li>
-          </ul>
-        </div>
-        <div class="timeline-step" data-q="4">
-          <h4>Déploiement global</h4>
-          <ul>
-            <li>Extension à tous les domaines.</li>
-            <li>Roadmap 12 mois.</li>
-            <li>Audit final & ajustements.</li>
-          </ul>
-        </div>
-      </div>
+    <!-- SLIDE 7 : Étape 4 – Problèmes clés -->
+    <section class="centered">
+      <div class="subtitle">Étape 4 — Présentation finale</div>
+      <h2>Slide 2 — Problèmes clés</h2>
+      <ul style="margin-top:1.5rem;">
+        <li>Silos → incohérences.</li>
+        <li>Qualité → recommandations dégradées.</li>
+        <li>Conformité → risque RGPD/CCPA.</li>
+        <li>Sécurité → accès trop larges.</li>
+      </ul>
     </section>
 
-    <!-- SLIDE 7 : Bénéfices -->
+    <!-- SLIDE 8 : Étape 4 – Vision cible -->
+    <section class="centered">
+      <div class="subtitle">Étape 4 — Présentation finale</div>
+      <h2>Slide 3 — Vision cible</h2>
+      <ul style="margin-top:1.5rem;">
+        <li>Gouvernance unifiée.</li>
+        <li>Standards globaux.</li>
+        <li>Qualité mesurée.</li>
+        <li>Accès sécurisés.</li>
+        <li>Architecture harmonisée.</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 9 : Étape 4 – Bénéfices attendus -->
     <section>
-      <div class="subtitle">Impact</div>
-      <h2>Bénéfices attendus</h2>
+      <div class="subtitle">Étape 4 — Présentation finale</div>
+      <h2>Slide 4 — Bénéfices attendus</h2>
 
       <div class="two-columns" style="margin-top:1.5rem;">
         <div>
@@ -572,106 +626,157 @@
             <span class="impact-label">Temps de recherche de données</span>
           </div>
           <div class="impact-row">
-            <span class="impact-number">↓</span>
-            <span class="impact-label">Risque RGPD / CCPA</span>
+            <span class="impact-number">↑</span>
+            <span class="impact-label">Vision utilisateur unifiée & productivité</span>
           </div>
         </div>
         <div class="card">
-          <div class="schema-title">Lecture exécutive</div>
+          <div class="schema-title">BÉNÉFICES ATTENDUS (IMPACTS MESURABLES)</div>
           <ul>
-            <li>Moins d’incidents → plus de fiabilité pour les équipes Produit & Marketing.</li>
-            <li>Recommandations plus précises → meilleure rétention & engagement.</li>
-            <li>Moins de temps perdu → focus sur l’analyse, pas sur la chasse aux données.</li>
-            <li>Risque réglementaire réduit → protection de la marque & du business.</li>
+            <li>–40 % d’incidents data (monitoring automatisé).</li>
+            <li>+5 à +8 % de précision des recommandations (métadonnées fiables).</li>
+            <li>–30 à –50 % de temps perdu à chercher les données (Data Catalog).</li>
+            <li>Réduction majeure du risque RGPD/CCPA (consentement harmonisé).</li>
+            <li>Vision utilisateur unifiée → meilleure personnalisation & revenus.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 8 : Roadmap -->
+    <!-- SLIDE 10 : Étape 4 – Roadmap 12 mois -->
     <section>
-      <div class="subtitle">Roadmap</div>
-      <h2>Roadmap 12 mois</h2>
+      <div class="subtitle">Étape 4 — Présentation finale</div>
+      <h2>Slide 5 — Roadmap 12 mois</h2>
 
       <div class="timeline" style="margin-top:1.5rem;">
         <div class="timeline-step" data-q="Q1">
-          <h4>Q1 – Foundations</h4>
+          <h4>Q1 : Standards + CoE</h4>
           <ul>
-            <li>Création du Centre d’Excellence (CoE).</li>
+            <li>Création du Centre d’Excellence.</li>
             <li>Définition des standards & politiques.</li>
-            <li>Identification des Data Owners & Stewards.</li>
           </ul>
         </div>
         <div class="timeline-step" data-q="Q2">
-          <h4>Q2 – Catalog & Rôles</h4>
+          <h4>Q2 : Data Catalog + Stewards</h4>
           <ul>
             <li>Déploiement du Data Catalog.</li>
-            <li>Onboarding des Stewards.</li>
-            <li>Documentation des datasets critiques.</li>
+            <li>Nomination & onboarding des Data Stewards.</li>
           </ul>
         </div>
         <div class="timeline-step" data-q="Q3">
-          <h4>Q3 – Qualité & Sécurité</h4>
+          <h4>Q3 : Monitoring qualité + Zero‑Trust</h4>
           <ul>
-            <li>Monitoring qualité (alertes, scores).</li>
-            <li>Mise en œuvre Zero‑Trust & IAM renforcé.</li>
-            <li>Processus RGPD / CCPA industrialisés.</li>
+            <li>Mise en place du monitoring qualité.</li>
+            <li>Segmentation Zero‑Trust & IAM renforcé.</li>
           </ul>
         </div>
         <div class="timeline-step" data-q="Q4">
-          <h4>Q4 – Scale & Audit</h4>
+          <h4>Q4 : Déploiement global + audit</h4>
           <ul>
             <li>Extension à tous les domaines.</li>
-            <li>Audit de conformité & performance.</li>
-            <li>Plan d’amélioration continue.</li>
+            <li>Audit final & plan d’amélioration continue.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SLIDE 9 : Pilote -->
+    <!-- SLIDE 11 : Vision cible – Schéma -->
     <section>
-      <div class="subtitle">Pilote</div>
-      <h2>Pilote – “User Listening Events”</h2>
+      <div class="subtitle">Vision cible</div>
+      <h2>Schéma Vision Cible – Target Operating Model</h2>
 
-      <div class="two-columns" style="margin-top:1.5rem;">
+      <div class="card" style="margin-top:1.5rem;">
+        <div class="schema-title">VISION CIBLE SPOTIFY DATA GOVERNANCE</div>
+        <pre style="font-size:0.8em; line-height:1.4; background:none; border:none; color:#ddd;">
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 1. Données fiables      → Qualité mesurée, métadonnées complètes       │
+│ 2. Données sécurisées   → Zero‑Trust, accès minimaux, pseudonymisation  │
+│ 3. Données conformes    → Consentement harmonisé, droit à l’oubli OK    │
+│ 4. Données accessibles  → Data Catalog central, documentation claire    │
+│ 5. Données intégrées    → Silos supprimés, vision utilisateur unifiée   │
+└─────────────────────────────────────────────────────────────────────────┘
+        </pre>
+      </div>
+    </section>
+
+    <!-- SLIDE 12 : Schéma de cohérence globale -->
+    <section>
+      <div class="subtitle">Cohérence globale</div>
+      <h2>Schéma de cohérence – As‑Is / Gaps / Target</h2>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <div class="schema-title">SCHÉMA DE COHÉRENCE GLOBALE</div>
+        <pre style="font-size:0.8em; line-height:1.4; background:none; border:none; color:#ddd;">
+┌─────────────────────────────────────────────────────────────────────────┐
+│ AS‑IS (Problèmes)        →   GAPS (Manques)   →   TARGET (Vision)       │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Silos entre équipes      →   Pas de standards →   Modèle CoE + Domaines │
+│ Métadonnées incomplètes  →   Pas de qualité   →   Score qualité mensuel │
+│ Consentement variable    →   Pas d’harmonisation → Consentement global  │
+│ Accès trop larges        →   Pas de Zero‑Trust →   IAM + segmentation   │
+│ Données dispersées       →   Pas de catalogage →   Data Catalog central │
+└─────────────────────────────────────────────────────────────────────────┘
+        </pre>
+      </div>
+    </section>
+
+    <!-- SLIDE 13 : Méthode utilisée -->
+    <section>
+      <div class="subtitle">Méthodologie</div>
+      <h2>Méthode utilisée – Approche en 4 étapes</h2>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <div class="schema-title">MÉTHODE UTILISÉE (APPROCHE EN 4 ÉTAPES)</div>
+        <pre style="font-size:0.8em; line-height:1.4; background:none; border:none; color:#ddd;">
+┌──────────────────────────────────────────────────────────────┐
+│ 1. Diagnostic             → Analyse silos, qualité, conformité │
+│ 2. Design du cadre        → Principes, rôles, standards        │
+│ 3. Implémentation pilote  → Dataset Listening Events           │
+│ 4. Déploiement global     → Roadmap 12 mois + audit final      │
+└──────────────────────────────────────────────────────────────┘
+        </pre>
+      </div>
+    </section>
+
+    <!-- SLIDE 14 : RGPD / CCPA – Visuel dynamique -->
+    <section>
+      <div class="subtitle">Conformité</div>
+      <h2>Conformité aux exigences RGPD / CCPA</h2>
+
+      <div class="gdpr-wrapper" style="margin-top:1.5rem;">
+        <div class="shield-container">
+          <div class="shield-glow"></div>
+          <div class="shield" id="shield"></div>
+        </div>
         <div>
-          <p>Le dataset “User Listening Events” est critique pour les recommandations et l’analyse d’engagement.</p>
-          <ul style="margin-top:0.8rem;">
-            <li>Documentation complète des champs & définitions.</li>
-            <li>Règles de qualité (complet, cohérent, frais).</li>
-            <li>Alertes automatiques en cas d’anomalie.</li>
-            <li>Revue des accès & segmentation.</li>
-            <li>Test du droit à l’oubli & du consentement.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="schema-title">Objectifs du pilote</div>
-          <ul>
-            <li>Valider le cadre de gouvernance sur un cas concret.</li>
-            <li>Mesurer les gains (qualité, temps, incidents).</li>
-            <li>Identifier les ajustements avant déploiement global.</li>
-          </ul>
+          <div class="schema-title">Piliers de conformité intégrés au cadre</div>
+          <div class="pillars">
+            <div class="pillar pillar-anim">
+              <h4>Minimisation</h4>
+              <p>Collecte limitée au nécessaire & pseudonymisation après 90 jours.</p>
+            </div>
+            <div class="pillar pillar-anim">
+              <h4>Accès</h4>
+              <p>Zero‑Trust & IAM renforcé, segmentation fine des permissions.</p>
+            </div>
+            <div class="pillar pillar-anim center">
+              <h4>Consentement</h4>
+              <p>Traçable & auditable, mécanisme harmonisé dans toutes les régions.</p>
+            </div>
+            <div class="pillar pillar-anim">
+              <h4>Droit à l’oubli</h4>
+              <p>Processus centralisé couvrant 20+ systèmes internes.</p>
+            </div>
+            <div class="pillar pillar-anim">
+              <h4>Transparence</h4>
+              <p>Documentation claire & politique de confidentialité unifiée.</p>
+            </div>
+          </div>
+          <p style="margin-top:0.8rem;" class="small">
+            Le cadre réduit significativement le risque réglementaire tout en améliorant la qualité et l’efficacité opérationnelle.
+          </p>
         </div>
       </div>
-    </section>
-
-    <!-- SLIDE 10 : Conclusion -->
-    <section>
-      <div class="subtitle">Conclusion</div>
-      <h2>Une gouvernance scalable, sécurisée et conforme</h2>
-
-      <ul style="margin-top:1.5rem;">
-        <li>Cadre robuste, aligné RGPD / CCPA & PCI‑DSS.</li>
-        <li>Amélioration mesurable de la qualité & de la fiabilité des données.</li>
-        <li>Réduction des risques réglementaires & réputationnels.</li>
-        <li>Accélération de la personnalisation & de l’innovation produit.</li>
-        <li>Base solide pour la croissance internationale de Spotify.</li>
-      </ul>
-
-      <p style="margin-top:1.5rem;" class="small">
-        Storyline : du diagnostic des risques à la mise en œuvre d’un cadre de gouvernance data créateur de valeur.
-      </p>
     </section>
 
   </div>
@@ -686,6 +791,59 @@
     controls: true,
     progress: true,
     center: false
+  });
+
+  // Animations dynamiques (bouclier + piliers)
+  Reveal.on('slidechanged', event => {
+    const current = event.currentSlide;
+
+    // Animation bouclier RGPD/CCPA
+    const shield = current.querySelector('#shield');
+    if (shield) {
+      anime({
+        targets: shield,
+        scale: [0.7, 1],
+        opacity: [0, 1],
+        duration: 800,
+        easing: 'easeOutElastic(1, .6)'
+      });
+    }
+
+    const pillars = current.querySelectorAll('.pillar-anim');
+    if (pillars && pillars.length) {
+      anime({
+        targets: pillars,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(120),
+        duration: 500,
+        easing: 'easeOutQuad'
+      });
+    }
+
+    const timelineSteps = current.querySelectorAll('.timeline-step');
+    if (timelineSteps && timelineSteps.length) {
+      anime({
+        targets: timelineSteps,
+        translateY: [15, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(100),
+        duration: 450,
+        easing: 'easeOutQuad'
+      });
+    }
+
+    const cards = current.querySelectorAll('.card');
+    if (cards && cards.length) {
+      anime({
+        targets: cards,
+        opacity: [0, 1],
+        translateY: [10, 0],
+        delay: anime.stagger(80),
+        duration: 400,
+        easing: 'easeOutQuad'
+      });
+    }
   });
 </script>
 
